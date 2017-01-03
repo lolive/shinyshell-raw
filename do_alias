@@ -1,0 +1,8 @@
+[ -f $1 ] && [ -L $1 ] || return;
+ALIAS_FULLPATH="$1"
+ALIAS_FILENAME=`basename "$ALIAS_FULLPATH"`
+CURRENT="$ALIAS_FILENAME"
+TARGET_FUNCTION=$(basename $(readlink -f ${ALIAS_FULLPATH}))
+unalias ${CURRENT} 2>/dev/null
+alias ${CURRENT}=${TARGET_FUNCTION}
+

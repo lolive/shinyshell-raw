@@ -1,0 +1,2 @@
+call_function ${1}
+do_alias ${1}
