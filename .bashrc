@@ -1,4 +1,3 @@
-export BD=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 export BD=$(dirname ${BASH_SOURCE[0]})
 unset -f call_function 2>&1 1>/dev/null
 function call_function () {
