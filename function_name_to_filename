@@ -1,10 +1,11 @@
 if [ "$#" -eq 1 ]; then
-        name_params "FUNCTION_NAME" "$@"
-        FUNCTION_FILENAME=`find $BD -name ${FUNCTION_NAME}`
+        local FUNCTION_NAME=${1}
+        local FUNCTION_FILENAME=`find $BD -name ${FUNCTION_NAME}`
 	echo "${FUNCTION_FILENAME}"
 elif [ "$#" -eq 2 ]; then
-        name_params "PACKAGE FUNCTION_NAME" "$@"
-        FUNCTION_FILENAME=${BD}/${PACKAGE}/${FUNCTION_NAME}
+        local PACKAGE=${1} 
+        local FUNCTION_NAME=${2}
+        local FUNCTION_FILENAME=${BD}/${PACKAGE}/${FUNCTION_NAME}
 	echo "${FUNCTION_FILENAME}"
 else
         log_error "One or two parameters are expected for function $FUNCNAME"
