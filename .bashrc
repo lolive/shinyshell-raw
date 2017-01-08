@@ -24,16 +24,33 @@ EOF2
   cat >> $BDTMP <<'EOF3'
    eval existing_param_value=\$$param_name
    if [ -z ${existing_param_value} ]; then  
-    eval "local ${param_name}="'"'"$1"'"'
-    echo ${param_name} was set to "$1"
-    shift
+    if [[ -z ${1} ]]; then
 EOF3
   cat >> $BDTMP <<EOF4
+     echo Expected params \"${PARAMS}\"
+EOF4
+  cat >> $BDTMP <<'EOF5'
+     echo "Too few parameters. Cancelling..."
+     return
+    fi
+    eval "local ${param_name}="'"'"$1"'"'
+    shift
    else
-    echo Command-line parameter ${param_name} will not be read from command line. We use the global value "${existing_param_value}" instead. If you provided this parameter on the command line, please unset the golbal parameter first.
+    echo ${param_name} is already set to "${existing_param_value}"
    fi
   done
-EOF4
+EOF5
+  cat >> $BDTMP <<'EOF7'
+  if [[ -n ${1} ]]; then
+EOF7
+  cat >> $BDTMP <<EOF8
+     echo Expected params \"${PARAMS}\"
+EOF8
+  cat >> $BDTMP <<'EOF9'
+     echo "Too many parameters. Cancelling..."
+     return
+  fi
+EOF9
   fi
   grep -v name_params $FUNCTION_FULLPATH >> $BDTMP
   cat >> $BDTMP <<'EOF'
