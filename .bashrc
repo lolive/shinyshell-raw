@@ -1,4 +1,9 @@
 export BD=$(dirname ${BASH_SOURCE[0]})
+unset -f param_names 2>&1 1>/dev/null
+function param_names () {
+ FUNCTION_FULLPATH=${1}
+ grep '^\s*name_params' $FUNCTION_FULLPATH  | sed -e 's/.*name_params *//'
+}
 unset -f call_function 2>&1 1>/dev/null
 function call_function () {
   [ -f $1 ] && [ ! -L $1 ] || return;
@@ -7,7 +12,7 @@ function call_function () {
   CURRENT="$FUNCTION_FILENAME"
   BDTMP=$BD/.tmp
   [[ -f ${BD}/.error ]] && rm ${BD}/.error
-  local PARAMS=`grep name_params $FUNCTION_FULLPATH | sed -e 's/.*name_params *//'`
+  local PARAMS=`param_names ${FUNCTION_FULLPATH}`
   cat > $BDTMP <<EOF1
   unset -f ${CURRENT} 2>&1 1>/dev/null
   function ${CURRENT} () {
