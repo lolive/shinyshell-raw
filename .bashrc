@@ -13,6 +13,7 @@ function call_function () {
   BDTMP=$BD/.tmp
   [[ -f ${BD}/.error ]] && rm ${BD}/.error
   local PARAMS=`param_names ${FUNCTION_FULLPATH}`
+  
   cat > $BDTMP <<EOF1
   unset -f ${CURRENT} 2>&1 1>/dev/null
   function ${CURRENT} () {
@@ -27,16 +28,16 @@ EOF2
     if [[ -z ${1} ]]; then
 EOF3
   cat >> $BDTMP <<EOF4
-     echo Expected params \"${PARAMS}\"
+     echo ${CURRENT}: Expected params \"${PARAMS}\" >&2
 EOF4
   cat >> $BDTMP <<'EOF5'
-     echo "Too few parameters. Cancelling..."
+     echo "Too few parameters. Cancelling..." >&2
      return
     fi
     eval "local ${param_name}="'"'"$1"'"'
     shift
    else
-    echo ${param_name} is already set to "${existing_param_value}"
+    echo ${param_name} is already set to "${existing_param_value}" >&2
    fi
   done
 EOF5
@@ -44,10 +45,10 @@ EOF5
   if [[ -n ${1} ]]; then
 EOF7
   cat >> $BDTMP <<EOF8
-     echo Expected params \"${PARAMS}\"
+     echo ${CURRENT}: Expected params \"${PARAMS}\" >&2
 EOF8
   cat >> $BDTMP <<'EOF9'
-     echo "Too many parameters. Cancelling..."
+     echo "Too many parameters. Cancelling..." >&2
      return
   fi
 EOF9

@@ -1,2 +1,6 @@
-call_function ${1}
-do_alias ${1}
+FUNCTION_OR_ALIAS=${1}
+if [[ ${FUNCTION_OR_ALIAS} == *'README.md' ]]; then
+ return
+fi
+call_function ${FUNCTION_OR_ALIAS}
+do_alias ${FUNCTION_OR_ALIAS}

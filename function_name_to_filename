@@ -1,6 +1,6 @@
 if [ "$#" -eq 1 ]; then
         local FUNCTION_NAME=${1}
-        local FUNCTION_FILENAME=`find $BD -name ${FUNCTION_NAME}`
+        local FUNCTION_FILENAME=`find $BD -not -path "*.git*" -name ${FUNCTION_NAME}`
 	echo "${FUNCTION_FILENAME}"
 elif [ "$#" -eq 2 ]; then
         local PACKAGE=${1} 
