@@ -63,8 +63,9 @@ EOF8
 EOF9
   fi
   grep -v name_params $FUNCTION_FULLPATH >> $BDTMP
-  cat >> $BDTMP <<'EOF'
+  cat >> $BDTMP <<EOF
   }
+  export -f ${CURRENT}
 EOF
   source $BDTMP
 }
