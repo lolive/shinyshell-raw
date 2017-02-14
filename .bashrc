@@ -23,21 +23,30 @@ EOF1
   for param_name in ${PARAMS}; do
 EOF2
   cat >> $BDTMP <<'EOF3'
-   eval existing_param_value=\$$param_name
-   if [ -z ${existing_param_value} ]; then  
-    if [[ -z ${1} ]]; then
+   if [[ ${param_name} == _* ]]; then
+     echo ${param_name}
+    eval existing_param_value=\$${param_name#_}
+    if [ -z "${existing_param_value}" ]; then  
+     eval "local ${param_name#_}="'"'"$1"'"'
+     shift
+    fi 
+   else  
+    eval existing_param_value=\$$param_name
+    if [ -z "${existing_param_value}" ]; then  
+     if [[ -z ${1} ]]; then
 EOF3
   cat >> $BDTMP <<EOF4
-     echo ${CURRENT}: Expected params \"${PARAMS}\" >&2
+      echo ${CURRENT}: Expected params \"${PARAMS}\" >&2
 EOF4
   cat >> $BDTMP <<'EOF5'
-     echo "Too few parameters. Cancelling..." >&2
-     return
+      echo "Too few parameters. Cancelling..." >&2
+      return
+     fi
+     eval "local ${param_name}="'"'"$1"'"'
+     shift
+    else
+     echo ${param_name} is already set to "${existing_param_value}" >&2
     fi
-    eval "local ${param_name}="'"'"$1"'"'
-    shift
-   else
-    echo ${param_name} is already set to "${existing_param_value}" >&2
    fi
   done
 EOF5
