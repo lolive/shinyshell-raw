@@ -1,4 +1,4 @@
-export BD=$(dirname ${BASH_SOURCE[0]})
+export BD=$(dirname "$(dirname ${BASH_SOURCE[0]})")
 unset -f param_names 2>&1 1>/dev/null
 function param_names () {
  FUNCTION_FULLPATH=${1}
@@ -79,5 +79,5 @@ EOF9
 EOF
   source $BDTMP
 }
-for raw_function in $BD/.raw/*; do echo call_function ${raw_function}; done
+for raw_function in $BD/.raw/*; do call_function ${raw_function}; done
 for function_or_alias in $BD/*/*; do manage_function_or_alias ${function_or_alias}; done
