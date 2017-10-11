@@ -1,4 +1,4 @@
-export BD=$(dirname ${BASH_SOURCE[0]})
+export BD=$(dirname "$(dirname ${BASH_SOURCE[0]})")
 unset -f param_names 2>&1 1>/dev/null
 function param_names () {
  FUNCTION_FULLPATH=${1}
@@ -17,6 +17,15 @@ function call_function () {
   cat > $BDTMP <<EOF1
   unset -f ${CURRENT} 2>&1 1>/dev/null
   function ${CURRENT} () {
+  if [ "\$#" -eq 2 -a "\$1" = "--edit" -a "\$2" = "--help" ]; then
+   edit_help ${CURRENT}
+  elif [ "\$#" -eq 2 -a "\$2" = "--edit" -a "\$1" = "--help" ]; then
+   edit_help ${CURRENT}
+  elif [ "\$#" -eq 1 -a "\$1" = "--help" ]; then
+   view_help ${CURRENT}
+  elif [ "\$#" -eq 1 -a "\$1" = "--edit" ]; then
+   edit_function ${CURRENT}
+  else
 EOF1
   if [[ -n $PARAMS ]]; then
   cat >> $BDTMP <<EOF2
@@ -62,12 +71,13 @@ EOF8
   fi
 EOF9
   fi
-  grep -v name_params $FUNCTION_FULLPATH >> $BDTMP
+  grep -v name_params $FUNCTION_FULLPATH >> $BDTMP  
   cat >> $BDTMP <<EOF
+  fi
   }
   export -f ${CURRENT}
 EOF
   source $BDTMP
 }
-for raw_function in $BD/.raw/*; do call_function ${raw_function}; done
+for raw_function in $BD/.raw/*; do echo call_function ${raw_function}; done
 for function_or_alias in $BD/*/*; do manage_function_or_alias ${function_or_alias}; done
