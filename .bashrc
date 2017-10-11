@@ -1,4 +1,4 @@
-export BD=$(dirname "$(dirname ${BASH_SOURCE[0]})")
+export BD=$(dirname ${BASH_SOURCE[0]})
 unset -f param_names 2>&1 1>/dev/null
 function param_names () {
  FUNCTION_FULLPATH=${1}
