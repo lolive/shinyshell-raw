@@ -1,3 +1,5 @@
+# Package "Shinyshell-.raw":
+
 
 $ do_alias  : ""
 
@@ -7,6 +9,8 @@ $ log_error  : ""
 
 $ manage_function_or_alias  : ""
 
+
+This package contains the following functions:
 
 
 ## do_alias  :
