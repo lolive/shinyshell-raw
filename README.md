@@ -12,19 +12,27 @@ $ manage_function_or_alias  : ""
 
 This package contains the following functions:
 
+<pre>
 
 ## do_alias  :
 
 
+</pre>
+<pre>
 
 ## function_name_to_filename  :
 
 
+</pre>
+<pre>
 
 ## log_error  :
 
 
+</pre>
+<pre>
 
 ## manage_function_or_alias  :
 
 
+</pre>
