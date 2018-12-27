@@ -33,7 +33,7 @@ EOF1
 EOF2
   cat >> $BDTMP <<'EOF3'
    if [[ ${param_name} == _* ]]; then
-     echo ${param_name}
+#     echo ${param_name} >&2
     eval existing_param_value=\$${param_name#_}
     if [ -z "${existing_param_value}" ]; then  
      eval "local ${param_name#_}="'"'"$1"'"'
